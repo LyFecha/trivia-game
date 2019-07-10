@@ -11,18 +11,22 @@ class Stats extends React.Component {
         difficulty: "Any Difficulty",
         token: "",
         score: "",
-        removeLine: 0
     }
     this.handleClick = this.handleClick.bind(this)
     this.handleChange = this.handleChange.bind(this)
   }
 
-  handleClick(event) {
-    if (event.target.name === "add") {
+  handleClick(event, key=undefined) {
+    if (event.target.name === "+") {
         const {category, difficulty, token, score} = this.state
         this.props.addStats([token, score, difficulty, category])
-    } else if (event.target.name === "remove" && parseInt(this.state.removeLine) > 0 && parseInt(this.state.removeLine) <= this.props.stats.length) {
-        this.props.removeStats(this.state.removeLine-1)
+    } else if (event.target.name === "-") {
+        this.props.removeStats(parseInt(key, 10))
+    } else if (event.target.name === "~") {
+        const token = this.props.stats[key][0], score = this.props.stats[key][1], difficulty = this.props.stats[key][2], category = this.props.stats[key][3]
+        console.log({token, score, difficulty, category})
+        this.setState({token, score, difficulty, category})
+        this.props.removeStats(parseInt(key, 10))
     }
   }
 
@@ -35,12 +39,20 @@ class Stats extends React.Component {
   }
 
   render() {
-    const displayStats = this.props.stats.map((val,key) => <tr key={key}>{val.map((val2,key2) => <td key={"_"+key2}>{val2}</td>)}</tr>)
+    const displayStats = this.props.stats.map((val,key) =>
+        <tr key={key}>
+            <td><button className="col align-self-center" key={key} name="-" onClick={event => this.handleClick(event,key)}>-</button></td>
+            <td><button className="col align-self-center" key={key} name="~" onClick={event => this.handleClick(event,key)}>~</button></td>
+            {val.map((val2,key2) => <td key={"_"+key2}>{val2}</td>)}
+        </tr>
+    )
     return (
         <div className="shadow p-3 mb-5 bg-white rounded">
             <table className="table table-striped table-bordered">
                 <thead className="thead-light">
                     <tr>
+                        <th>Delete</th>
+                        <th>Modify</th>
                         <th>Token</th>
                         <th>Score</th>
                         <th>Difficulty</th>
@@ -50,6 +62,8 @@ class Stats extends React.Component {
                 <tbody>
                     {displayStats}
                     <tr>
+                        <td></td>
+                        <td><button className="col align-self-center" name="+" onClick={this.handleClick}>+</button></td>
                         <td><input name="token" value={this.state.token} onChange={this.handleChange} placeholder="Token"/></td>
                         <td><input name="score" value={this.state.score} onChange={this.handleChange} placeholder="Score"/></td>
                         <td>
@@ -65,9 +79,6 @@ class Stats extends React.Component {
                     </tr>
                 </tbody>
             </table>
-            <button name="add" onClick={this.handleClick}>Add</button>
-            <button name="remove" onClick={this.handleClick}>Remove :</button>
-            <input name="removeLine" value={this.state.removeLine} onChange={this.handleChange} placeholder="Line to remove"/>
         </div>
     )
   }

@@ -1,3 +1,5 @@
+import { CATEGORIES, DIFFICULTY } from '../constants'
+
 export function getData(category="any", difficulty="any") {
   return function(dispatch, getState) {
     if (!(getState().token)) {return dispatch({ type: "ERROR", payload: "Le token n'est pas défini" })}
@@ -8,6 +10,22 @@ export function getData(category="any", difficulty="any") {
       })
     )
   }
+}
+
+export function setCategoryDifficulty(category, difficulty) {
+  let categoryName, difficultyName
+  for (let cat of CATEGORIES) {
+    if (cat[0] === category) {
+      categoryName = cat[1]
+    }
+  }
+  for (let dif of DIFFICULTY) {
+    if (dif[0] === difficulty) {
+      difficultyName = dif[1]
+    }
+  }
+
+  return {type: "SET_CATEGORY_DIFFICULTY", payload: {category: categoryName, difficulty: difficultyName}}
 }
 
 export function getToken() {

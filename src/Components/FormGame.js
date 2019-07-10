@@ -1,6 +1,6 @@
 import React from 'react'
 import { CATEGORIES, DIFFICULTY } from '../constants'
-import { getData, notLoaded, resetQuestions } from '../redux/actions'
+import { getData, notLoaded, resetQuestions, setCategoryDifficulty } from '../redux/actions'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router-dom'
 
@@ -19,6 +19,7 @@ class FormGame extends React.Component {
   handleClick(event) {
     event.preventDefault()
     this.setState({text: "Loading..."})
+    this.props.setCategoryDifficulty(this.state.category, this.state.difficulty)
 
     this.props.getData(this.state.category, this.state.difficulty)
   }
@@ -64,4 +65,4 @@ function mapStateToProps(state) {
   return {questions: state.questions, loaded: state.loaded}
 }
 
-export default connect(mapStateToProps, {getData, notLoaded, resetQuestions})(FormGame)
+export default connect(mapStateToProps, {getData, notLoaded, resetQuestions, setCategoryDifficulty})(FormGame)

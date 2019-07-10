@@ -1,8 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { addStats } from '../redux/actions'
 import { Link } from 'react-router-dom'
 
 class End extends React.Component {
+  componentDidMount() {
+    const {questions, goodAnswers, token, difficulty, category} = this.props
+    this.props.addStats([token, `${goodAnswers}/${questions.length}`, difficulty, category])
+  }
+
   render() {
     return (
       <div>
@@ -17,8 +23,8 @@ class End extends React.Component {
 }
 
 function mapStateToProps(state) {
-  const {questions, goodAnswers} = state
-  return {questions, goodAnswers}
+  const {questions, goodAnswers, token, difficulty, category} = state
+  return {questions, goodAnswers, token, difficulty, category}
 }
 
-export default connect(mapStateToProps)(End)
+export default connect(mapStateToProps, {addStats})(End)
