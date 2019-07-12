@@ -1,3 +1,12 @@
+## Nouvelles fonctionnalités :
+Ajoutez "/pepperonisecret/:field" afin d'afficher des tableaux [cachées](https://youtu.be/zqTwOoElxBA?t=2) ! 'field' prend les valeurs :
+"conventions", "demandes", "operations", "regions", "themes"
+
+## Known bugs :
+- Si le tableau est vide, il ne s'affiche pas et l'ajout est impossible, la flemme de faire un tableau dynamique qui se souvient des attributs des anciens éléments.
+- "demandes" ne fonctionne pas, il est pas gentil, il n'aura pas de cadeau à Noël.
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
