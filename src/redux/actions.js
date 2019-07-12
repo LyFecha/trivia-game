@@ -63,3 +63,55 @@ export function removeStats(n) {
 export function goodAnswer() {
   return {type: "GOOD_ANSWER"}
 }
+
+export function getAPIData(field) {
+  return function(dispatch) {
+    return (fetchData(field).then(json => {
+        dispatch({ type: "GET_API_DATA", payload: {data: json}})
+      })
+    )
+  }
+}
+
+export function addAPI(field,id,data) {
+  return function(dispatch) {
+    console.log(data)
+    console.log(JSON.stringify(data))
+    return (
+      fetch(
+        `http://localhost:8080/${field}/${id}`, {method: "POST", headers: {'Accept': 'application/json','Content-Type': 'application/json'}, body: JSON.stringify(data)}
+      ).then(() => 
+        fetchData(field)
+      ).then(json =>
+        dispatch({ type: "GET_API_DATA", payload: {data: json}})
+      )
+    )
+  }
+}
+
+export function removeAPI(field,id) {
+  return function(dispatch) {
+    return (
+      fetch(
+        `http://localhost:8080/${field}/${id}`,{method: "DELETE"}
+      ).then(() => 
+        fetchData(field)
+      ).then(json =>
+        dispatch({ type: "GET_API_DATA", payload: {data: json}})
+      )
+      /*
+      .then(response => {
+        console.log(response)
+        response.json()}
+      ).then(json => {
+        console.log(json)
+        dispatch({ type: "GET_API_DATA", payload: {data: json}})
+      })
+      */
+    )
+  }
+}
+
+function fetchData(field) {
+  return fetch("http://localhost:8080/"+field).then(response => response.json())
+}

@@ -6,17 +6,19 @@ import About from './Components/About'
 import Speech from './Components/Speech'
 import Game from './Components/Game'
 import Stats from './Components/Stats'
+import APITest from './Components/APITest'
 
 function App() {
   return (
     <div className="container">
-      <div class="row justify-content-center col align-self-center">
+      <div className="row justify-content-center col align-self-center">
         <NavBar />
-        <div class="w-100"></div>
+        <div className="w-100"></div>
         <Route exact path="/" component={About} />
         <Route path="/how" component={Speech} />
         <Route path="/play" component={Game} />
         <Route path="/stats" component={Stats} />
+        <Route path="/pepperonisecret/:field" component={APITest}/>
       </div>
     </div>  
   )

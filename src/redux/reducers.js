@@ -30,10 +30,12 @@ export function reducer(state = initialState, action) {
       return {...state, stats: newStats}
     case "GOOD_ANSWER":
       return {...state, goodAnswers: state.goodAnswers+1}
+    case "GET_API_DATA":
+      return {...state, ...action.payload}
     case "ERROR":
       console.log(action.payload)
       return {...state}
     default:
-      return state
+      return {...state}
   }
 }
